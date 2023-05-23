@@ -16,6 +16,7 @@ public class MainActivity extends EasyActivity<ActivityMainBinding> {
         binding.btnMadAddress.setOnClickListener(v -> jumpActivity(MacAddressActivity.class));
         binding.btnProgressBar.setOnClickListener(v -> jumpActivity(ProgressBarActivity.class));
         binding.btnTimingText.setOnClickListener(v -> jumpActivity(TimingTextActivity.class));
+        //看看这个就好了
         binding.btnEasyEdittext.setOnClickListener(v -> jumpActivity(EasyEditTextActivity.class));
     }
 }

@@ -24,6 +24,13 @@ import java.util.List;
 
 /**
  * 简化输入框，可用于密码框、验证码框
+ * <p>
+ * <p>
+ * 绘制的很简单----代码量少，相比telegram的缺少动画
+ * <p>
+ * 没用到  setShowSoftInputOnFocus
+ * <p>
+ * 完全自定义，键盘在 onTouchEvent 弹起，所以不支持系统键盘
  */
 public class EasyEditText extends View implements NumberKeyboardListener {
 
@@ -154,22 +161,29 @@ public class EasyEditText extends View implements NumberKeyboardListener {
     private void initPaint() {
         //设置边框画笔
         mBoxPaint = new Paint();
-        mBoxPaint.setAntiAlias(true);// anti-aliasing
-        mBoxPaint.setColor(mBoxBackgroundColor);//Set color
-        mBoxPaint.setStyle(Paint.Style.FILL);//Style filling
+        // anti-aliasing
+        mBoxPaint.setAntiAlias(true);
+        //Set color
+        mBoxPaint.setColor(mBoxBackgroundColor);
+        //Style filling
+        mBoxPaint.setStyle(Paint.Style.FILL);
         //设置描边画笔
         mBoxStrokePaint = new Paint();
         mBoxStrokePaint.setAntiAlias(true);
         mBoxStrokePaint.setColor(mBoxStrokeColor);
-        mBoxStrokePaint.setStyle(Paint.Style.STROKE);//Style stroke
-        mBoxStrokePaint.setStrokeWidth(mBoxStrokeWidth);//Stroke width
+        //Style stroke
+        mBoxStrokePaint.setStyle(Paint.Style.STROKE);
+        //Stroke width
+        mBoxStrokePaint.setStrokeWidth(mBoxStrokeWidth);
         //设置文字画笔
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setColor(mTextColor);
-        mTextPaint.setTextSize(mTextSize);//Text size
-        mTextPaint.setTextAlign(Paint.Align.CENTER);//Center the text
+        //Text size
+        mTextPaint.setTextSize(mTextSize);
+        //Center the text
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
     }
 
     /**
@@ -256,6 +270,10 @@ public class EasyEditText extends View implements NumberKeyboardListener {
                 //Drawn position
                 int offset = (mTextRect.top + mTextRect.bottom) / 2;
                 //Draw text, need to determine the starting point of X, Y coordinate points
+                //todo 没考虑文字大小，但是影响不大
+                Log.i("EasyEditText", mTextRect.top + "========drawMacAddress===========" + mTextRect.bottom);
+                //mTextRect 得到的是文字的贴边占用矩形
+                //https://github.com/rengwuxian/HenCoderPlus/blob/master/06-drawing/src/main/java/com/hencoder/plus/view/SportsView.java
                 float x = (float) (getPaddingLeft() + mBoxWidth * i + boxMargin * i + mBoxWidth / 2);
                 float y = (float) (getPaddingTop() + mBoxWidth / 2) - offset;
                 //Draw text
@@ -272,7 +290,7 @@ public class EasyEditText extends View implements NumberKeyboardListener {
     public boolean onTouchEvent(MotionEvent event) {
         if (event != null) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                //显示数字键盘
+                //显示数字键盘------ 不支持系统键盘
                 EasyUtils.showNumKeyboardDialog(mContext, this);
                 return true;
             }
@@ -282,7 +300,9 @@ public class EasyEditText extends View implements NumberKeyboardListener {
 
     @Override
     public void onNum(String num) {
-        if (currentInputPosition == mInputLength) return;
+        if (currentInputPosition == mInputLength) {
+            return;
+        }
         inputArray[currentInputPosition] = num;
         currentInputPosition++;
         //Refresh View
@@ -291,7 +311,9 @@ public class EasyEditText extends View implements NumberKeyboardListener {
 
     @Override
     public void onDelete() {
-        if (currentInputPosition == 0) return;
+        if (currentInputPosition == 0) {
+            return;
+        }
         currentInputPosition--;
         inputArray[currentInputPosition] = null;
         //Refresh View
@@ -334,6 +356,7 @@ public class EasyEditText extends View implements NumberKeyboardListener {
 
     /**
      * 设置是否密文
+     *
      * @param flag true 密文、false 明文
      */
     public void setCiphertext(boolean flag) {
@@ -343,12 +366,19 @@ public class EasyEditText extends View implements NumberKeyboardListener {
 
     /**
      * 设置密文时显示的内容
+     *
      * @param content 密文内容，默认是 *
      */
     public void setCiphertextContent(String content) {
-        if (content == null) return;
-        if (content.isEmpty()) return;
-        if (content.length() > 1) return;
+        if (content == null) {
+            return;
+        }
+        if (content.isEmpty()) {
+            return;
+        }
+        if (content.length() > 1) {
+            return;
+        }
         ciphertextContent = content;
     }
 
@@ -358,8 +388,12 @@ public class EasyEditText extends View implements NumberKeyboardListener {
     public String getText() {
         StringBuilder builder = new StringBuilder();
         for (String number : inputArray) {
-            if (number == null) continue;
-            if (number.isEmpty()) continue;
+            if (number == null) {
+                continue;
+            }
+            if (number.isEmpty()) {
+                continue;
+            }
             builder.append(number);
         }
         return builder.toString();
