@@ -238,7 +238,8 @@ public class EasyEditText extends View implements NumberKeyboardListener {
             float right = (i + 1) * mBoxWidth + i * margin;
             float bottom = mBoxWidth;
             RectF rectF = new RectF(left, top, right, bottom);
-            //画一个圆角矩形框
+            //画一个圆角矩形框---------绘制这个圆角矩形的目的是什么？ todo  看一下画笔的 mBoxBackgroundColor 就知道了
+            //使用 这个控件的地方那个给一个背景更加清晰
             canvas.drawRoundRect(rectF, radius, radius, mBoxPaint);
             RectF strokeRectF = new RectF(left + strokeWidth, top + strokeWidth, right - strokeWidth, bottom - strokeWidth);
             //添加到列表
@@ -252,6 +253,7 @@ public class EasyEditText extends View implements NumberKeyboardListener {
             } else {
                 mBoxStrokePaint.setColor(mBoxStrokeColor);
             }
+            //这个是绘制的外边框
             canvas.drawRoundRect(focusList.get(i), strokeRadius, strokeRadius, mBoxStrokePaint);
         }
     }
@@ -270,11 +272,12 @@ public class EasyEditText extends View implements NumberKeyboardListener {
                 //Drawn position
                 int offset = (mTextRect.top + mTextRect.bottom) / 2;
                 //Draw text, need to determine the starting point of X, Y coordinate points
-                //todo 没考虑文字大小，但是影响不大
+                //todo 没考虑文字大小，这个是因为  mTextPaint.setTextAlign(Paint.Align.CENTER); 导致的
                 Log.i("EasyEditText", mTextRect.top + "========drawMacAddress===========" + mTextRect.bottom);
                 //mTextRect 得到的是文字的贴边占用矩形
                 //https://github.com/rengwuxian/HenCoderPlus/blob/master/06-drawing/src/main/java/com/hencoder/plus/view/SportsView.java
                 float x = (float) (getPaddingLeft() + mBoxWidth * i + boxMargin * i + mBoxWidth / 2);
+                //这个考虑了上下的距离问题
                 float y = (float) (getPaddingTop() + mBoxWidth / 2) - offset;
                 //Draw text
                 canvas.drawText(content, x, y, mTextPaint);

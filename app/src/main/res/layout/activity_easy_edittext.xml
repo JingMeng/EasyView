@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_green_dark"
     android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".used.EasyEditTextActivity">
+    android:orientation="vertical">
 
     <!--简易输入框-->
     <com.easy.view.EasyEditText
