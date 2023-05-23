@@ -17,7 +17,7 @@
         app:boxFocusStrokeColor="@color/green"
         app:boxNum="6"
         app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
+        app:boxStrokeWidth="8dp"
         app:boxWidth="48dp"
         app:ciphertext="false"
         app:textColor="@color/black"
